@@ -44,7 +44,6 @@ def send_request(api_key: str, action: str, server_id: str) -> requests.Response
         print("Error: Invalid action specified.")
         exit(1)
 
-    response.raise_for_status()
     return response
 
 
