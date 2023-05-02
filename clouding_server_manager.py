@@ -3,6 +3,7 @@ import requests
 import argparse
 from pprint import pprint
 from dotenv import load_dotenv
+from typing import List
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -17,7 +18,7 @@ def parse_arguments() -> argparse.Namespace:
     )
     parser.add_argument(
         "--server-id",
-        help="[Optional] Specify the server ID to perform the action or 'all' if you want to apply the action to evey server.",
+        help="[Optional] Specify the server ID to perform the action or 'all' if you want to apply the action to every server.",
     )
 
     args = parser.parse_args()
@@ -26,39 +27,28 @@ def parse_arguments() -> argparse.Namespace:
 
 def send_request(api_key: str, action: str, server_id: str) -> requests.Response:
     """Send the request to the API"""
-
     # Build the headers
     headers = {"Content-Type": "application/json", "X-API-KEY": api_key}
 
     # Build the url depending on the action
-    if action == "archive" and server_id is not None:
-        # Build archive url
+    if action == "archive":
         url = f"https://api.clouding.io/v1/servers/{server_id}/archive"
-
-        # Send the request
         response = requests.post(url, headers=headers)
-    elif action == "unarchive" and server_id is not None:
-        # Build unarchive url
+    elif action == "unarchive":
         url = f"https://api.clouding.io/v1/servers/{server_id}/unarchive"
-
-        # Send the request
         response = requests.post(url, headers=headers)
-    elif action == "list" and server_id is None:
-        # Build list servers url
+    elif action == "list":
         url = "https://api.clouding.io/v1/servers"
-
-        # Send the request
         response = requests.get(url, headers=headers)
     else:
-        print(
-            "Error: 'server-id' should only be specified for 'archive' or 'unarchive' action."
-        )
+        print("Error: Invalid action specified.")
         exit(1)
 
+    response.raise_for_status()
     return response
 
 
-def get_all_server_ids(api_key: str) -> list:
+def get_all_server_ids(api_key: str) -> List[str]:
     """Get all server ids from the API"""
     # Build the headers
     headers = {"Content-Type": "application/json", "X-API-KEY": api_key}
@@ -68,6 +58,7 @@ def get_all_server_ids(api_key: str) -> list:
 
     # Send the request
     response = requests.get(url, headers=headers)
+    response.raise_for_status()
 
     # Get the json response
     json_response = response.json()
@@ -94,13 +85,14 @@ if __name__ == "__main__":
         exit(1)
 
     # Send request or requests to the API depending on the action
-    # Check if the server id is set to 'all'
     if args.server_id == "all" and not args.action == "list":
         server_ids = get_all_server_ids(api_key)
-        for id in server_ids:
-            response = send_request(api_key, args.action, id)
-            pprint(response.json())
-
+        responses = [
+            send_request(api_key, args.action, server_id) for server_id in server_ids
+        ]
     else:
-        response = send_request(api_key, args.action, args.server_id)
+        responses = [send_request(api_key, args.action, args.server_id)]
+
+    # Print the response for each request
+    for response in responses:
         pprint(response.json())
