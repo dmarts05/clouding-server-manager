@@ -1,29 +1,106 @@
 import os
 import requests
+import argparse
+from pprint import pprint
+from dotenv import load_dotenv
 
-if __name__ == "__main__":
-    # Get the server id and api key from environment variables
-    server_id = os.environ.get("CLOUDING_SERVER_ID")
-    api_key = os.environ.get("CLOUDING_API_KEY")
 
-    # Check if the server id and api key are valid
-    if server_id is None or api_key is None:
+def parse_arguments() -> argparse.Namespace:
+    """Parse the arguments passed to the script"""
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--action",
+        required=True,
+        choices=["list", "archive", "unarchive"],
+        help="Specify the action to perform.",
+    )
+    parser.add_argument(
+        "--server-id",
+        help="[Optional] Specify the server ID to perform the action or 'all' if you want to apply the action to evey server.",
+    )
+
+    args = parser.parse_args()
+    return args
+
+
+def send_request(api_key: str, action: str, server_id: str) -> requests.Response:
+    """Send the request to the API"""
+
+    # Build the headers
+    headers = {"Content-Type": "application/json", "X-API-KEY": api_key}
+
+    # Build the url depending on the action
+    if action == "archive" and server_id is not None:
+        # Build archive url
+        url = f"https://api.clouding.io/v1/servers/{server_id}/archive"
+
+        # Send the request
+        response = requests.post(url, headers=headers)
+    elif action == "unarchive" and server_id is not None:
+        # Build unarchive url
+        url = f"https://api.clouding.io/v1/servers/{server_id}/unarchive"
+
+        # Send the request
+        response = requests.post(url, headers=headers)
+    elif action == "list" and server_id is None:
+        # Build list servers url
+        url = "https://api.clouding.io/v1/servers"
+
+        # Send the request
+        response = requests.get(url, headers=headers)
+    else:
         print(
-            "Please set the CLOUDING_SERVER_ID and CLOUDING_API_KEY environment variables")
+            "Error: 'server-id' should only be specified for 'archive' or 'unarchive' action."
+        )
         exit(1)
 
-    # Build the request
-    url = f"https://api.clouding.io/v1/servers/{server_id}/archive"
-    headers = {
-        "Content-Type": "application/json",
-        "X-API-KEY": api_key
-    }
+    return response
+
+
+def get_all_server_ids(api_key: str) -> list:
+    """Get all server ids from the API"""
+    # Build the headers
+    headers = {"Content-Type": "application/json", "X-API-KEY": api_key}
+
+    # Build list servers url
+    url = "https://api.clouding.io/v1/servers"
 
     # Send the request
-    response = requests.post(url, headers=headers)
+    response = requests.get(url, headers=headers)
 
-    # Check the response
-    if response.ok:
-        print("Server archived successfully!")
+    # Get the json response
+    json_response = response.json()
+
+    # Get the server ids
+    server_ids = [server["id"] for server in json_response["servers"]]
+
+    return server_ids
+
+
+if __name__ == "__main__":
+    # Load environment variables
+    load_dotenv()
+
+    # Parse program arguments
+    args = parse_arguments()
+
+    # Get api key from environment variables
+    api_key = os.environ.get("CLOUDING_API_KEY")
+
+    # Check if the api key is set
+    if api_key is None:
+        print("Please set the CLOUDING_API_KEY environment variable.")
+        exit(1)
+
+    # Send request or requests to the API depending on the action
+    # Check if the server id is set to 'all'
+    if args.server_id == "all" and not args.action == "list":
+        server_ids = get_all_server_ids(api_key)
+        for id in server_ids:
+            response = send_request(api_key, args.action, id)
+            pprint(response.json())
+
     else:
-        print(f"Error archiving server: {response.text}")
+        response = send_request(api_key, args.action, args.server_id)
+        pprint(response.json())
