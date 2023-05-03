@@ -1,9 +1,0 @@
-{
-    "python.linting.flake8Args": [
-        "--ignore=W293"
-    ],
-    "python.formatting.provider": "black",
-    "python.analysis.typeCheckingMode": "basic",
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true
-}

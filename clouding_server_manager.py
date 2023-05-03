@@ -1,9 +1,10 @@
-import os
-import requests
 import argparse
+import os
 from pprint import pprint
-from dotenv import load_dotenv
 from typing import List
+
+import requests
+from dotenv import load_dotenv
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -18,14 +19,19 @@ def parse_arguments() -> argparse.Namespace:
     )
     parser.add_argument(
         "--server-id",
-        help="[Optional] Specify the server ID to perform the action or 'all' if you want to apply the action to every server.",
+        help=(
+            "[Optional] Specify the server ID to perform the action or 'all'"
+            " if you want to apply the action to every server."
+        ),
     )
 
     args = parser.parse_args()
     return args
 
 
-def send_request(api_key: str, action: str, server_id: str) -> requests.Response:
+def send_request(
+    api_key: str, action: str, server_id: str
+) -> requests.Response:
     """Send the request to the API"""
     # Build the headers
     headers = {"Content-Type": "application/json", "X-API-KEY": api_key}
@@ -87,7 +93,8 @@ if __name__ == "__main__":
     if args.server_id == "all" and not args.action == "list":
         server_ids = get_all_server_ids(api_key)
         responses = [
-            send_request(api_key, args.action, server_id) for server_id in server_ids
+            send_request(api_key, args.action, server_id)
+            for server_id in server_ids
         ]
     else:
         responses = [send_request(api_key, args.action, args.server_id)]
