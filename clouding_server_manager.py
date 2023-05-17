@@ -93,11 +93,11 @@ if __name__ == "__main__":
     # Send request or requests to the API depending on the action
     if args.server_id == "all" and not args.action == "list":
         server_ids = get_all_server_ids(api_key)
-        responses = [
-            send_request(api_key, args.action, server_id)
-            for server_id in server_ids
-            if time.sleep(1) is None  # add a 1 second delay between requests
-        ]
+        responses = []
+        for server_id in server_ids:
+            response = send_request(api_key, args.action, server_id)
+            responses.append(response)
+            time.sleep(1)  # add a 1 second delay between requests
     else:
         responses = [send_request(api_key, args.action, args.server_id)]
 
