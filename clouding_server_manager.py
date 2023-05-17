@@ -1,4 +1,5 @@
 import argparse
+import time
 import os
 from pprint import pprint
 from typing import List
@@ -95,6 +96,7 @@ if __name__ == "__main__":
         responses = [
             send_request(api_key, args.action, server_id)
             for server_id in server_ids
+            if time.sleep(1) is None  # add a 1 second delay between requests
         ]
     else:
         responses = [send_request(api_key, args.action, args.server_id)]
