@@ -2,6 +2,8 @@ from typing import List
 
 import requests
 
+from .constants import BASE_URL
+
 # def send_request(api_key: str, action: Action, target: str) -> requests.Response:
 #     """Send the request to the API"""
 #     # Build the headers
@@ -25,21 +27,25 @@ import requests
 
 
 def get_all_server_ids(api_key: str) -> List[str]:
-    """Get all server ids from the API"""
-    # Build the headers
-    headers = {"Content-Type": "application/json", "X-API-KEY": api_key}
+    """
+    Get all the server ids
 
-    # Build list servers url
-    url = "https://api.clouding.io/v1/servers"
+    Args:
+        api_key: The API key to use
 
-    # Send the request
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
+    Raises:
+        requests.RequestException: If there was an error with any of the requests
 
-    # Get the json response
-    json_response = response.json()
+    Returns:
+        A list with all the server ids
+    """
+    HEADERS = {"Content-Type": "application/json", "X-API-KEY": api_key}
+    REQUEST_URL = f"{BASE_URL}/servers"
 
-    # Get the server ids
-    server_ids = [server["id"] for server in json_response["servers"]]
+    response = requests.get(REQUEST_URL, headers=HEADERS)
+    if not response.ok:
+        raise requests.RequestException(f"Error: {response.status_code} {response.reason}")
 
+    # Return a list with all the server ids
+    server_ids = [server["id"] for server in response.json()["servers"]]
     return server_ids

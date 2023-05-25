@@ -1,16 +1,19 @@
 import click
+import requests
 from dotenv import load_dotenv
 
-from .list_servers import list_servers
+from .commands import archive_servers, list_servers, unarchive_servers
 
 
 @click.group()
-def clouding_server_manager_commands():
+def commands():
     pass
 
 
 # Add the commands to the group
-clouding_server_manager_commands.add_command(list_servers)
+commands.add_command(archive_servers)
+commands.add_command(list_servers)
+commands.add_command(unarchive_servers)
 
 if __name__ == "__main__":
     # Load API key from env variable
@@ -18,7 +21,7 @@ if __name__ == "__main__":
 
     # Run the CLI
     try:
-        clouding_server_manager_commands()
-    except ValueError as e:
-        click.echo(e)
+        commands()
+    except requests.RequestException as e:
+        click.secho(e, fg="red")
         exit(1)
