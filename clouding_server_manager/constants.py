@@ -9,7 +9,7 @@ WAIT_TIME = 15
 MAX_TOTAL_WAIT_TIME = 300
 """The maximum total time to wait for all servers to be unarchived or archived"""
 
-API_ALREADY_ARCHIVED_ERROR_MESSAGE = "Command 'archive' cannot be issued while server is in the current state"
+API_ALREADY_ARCHIVED_ERROR_MESSAGE = "Command 'shelve' cannot be issued while server is in the current state"
 """The error message returned by the API when trying to archive a server that is already archived"""
 
 API_ALREADY_UNARCHIVED_ERROR_MESSAGE = "Command 'unshelve' cannot be issued while server is in the current state"
