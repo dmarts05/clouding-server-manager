@@ -1,3 +1,4 @@
+import datetime
 import time
 from typing import Any, Dict, List
 
@@ -133,8 +134,11 @@ def archive_servers_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]
 
     click.secho("[ARCHIVE SERVERS] All servers have been archived!", fg="blue")
 
-    # Change server status to completed in the responses
-    responses_json = [{**response, "status": "completed"} for response in responses_json]
+    # Change server status to completed in the responses and add completed at date
+    completed_at_date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+    responses_json = [
+        {**response, "status": "completed", "completedAt": completed_at_date} for response in responses_json
+    ]
 
     return responses_json
 
@@ -186,7 +190,10 @@ def unarchive_servers_aux(api_key: str, targets: List[str]) -> List[Dict[str, An
 
     click.secho("[UNARCHIVE SERVERS] All servers have been unarchived!", fg="blue")
 
-    # Change server status to completed in the responses
-    responses_json = [{**response, "status": "completed"} for response in responses_json]
+    # Change server status to completed in the responses and add completed at date
+    completed_at_date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+    responses_json = [
+        {**response, "status": "completed", "completedAt": completed_at_date} for response in responses_json
+    ]
 
     return responses_json
