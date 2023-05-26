@@ -1,5 +1,5 @@
 # Clouding Server Manager
-![Version](https://img.shields.io/badge/Version-0.1.0-brightgreen.svg)
+![Version](https://img.shields.io/badge/Version-1.0.1-brightgreen.svg)
 ![Python](https://img.shields.io/badge/Python-3.9-brightgreen.svg)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
@@ -10,6 +10,7 @@ Clouding Server Manager is a Python project that allows you to manage your Cloud
 * [Examples](#examples)
 * [Installation with Poetry (recommended)](#installation-with-poetry-recommended)
 * [Installation with pip](#installation-with-pip)
+* [Installation as a PyPI package](#installation-as-a-pypi-package)
 * [Development Setup](#development-setup)
 * [Contributing](#contributing)
 * [License](#license)
@@ -107,6 +108,23 @@ This is an alternative installation method that uses pip instead of Poetry. It m
     or
     ```bash
     poetry run clouding-sm --help
+    ```
+    This will display the help message and show you how to use the script.
+
+## Installation as a PyPI package
+This is an alternative installation method that uses pip to install the package from PyPI. It might not work as expected, so it is recommended to use the Poetry installation method instead. To set up the project, follow these steps:
+1. Install the package using pip:
+    ```bash
+    pip install clouding-server-manager
+    ```
+2. Configure the environment variable with `export` or by adding them to your `.bashrc` or `.zshrc` file:
+    ```bash
+    export CLOUDING_API_KEY="YOUR API KEY"
+    ```
+    You can find your Clouding API key in the API section of your Clouding account (as of now you need access to the beta version of the Clouding API). As an alternative, you can use --api-key or -k to specify your API key when running the script.
+2. Run the script:
+    ```bash
+    clouding-sm --help
     ```
     This will display the help message and show you how to use the script.
 
