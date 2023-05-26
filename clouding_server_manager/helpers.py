@@ -14,32 +14,7 @@ from .constants import (
 )
 
 
-def get_all_server_ids(api_key: str) -> List[str]:
-    """
-    Get all the server ids
-
-    Args:
-        api_key: The API key to use
-
-    Raises:
-        requests.RequestException: If there was an error with any of the requests
-
-    Returns:
-        A list with all the server ids
-    """
-    HEADERS = {"Content-Type": "application/json", "X-API-KEY": api_key}
-    REQUEST_URL = f"{BASE_URL}/servers"
-
-    response = requests.get(REQUEST_URL, headers=HEADERS)
-    if not response.ok:
-        raise requests.RequestException(f"Error: {response.status_code} {response.reason}")
-
-    # Return a list with all the server ids
-    server_ids = [server["id"] for server in response.json()["servers"]]
-    return server_ids
-
-
-def list_aux(api_key: str, targets: List[str], fields: List[str]) -> List[Dict[str, Any]]:
+def list_aux(api_key: str, targets: List[str], fields: List[str] = []) -> List[Dict[str, Any]]:
     """
     List all clouding servers or some of them by id (business logic)
 
@@ -54,7 +29,7 @@ def list_aux(api_key: str, targets: List[str], fields: List[str]) -> List[Dict[s
     Returns:
         A list with all the responses to the listing requests
     """
-    click.secho("[LIST SERVERS] Listing servers...", fg="blue")
+    click.secho("[LIST] Listing servers...", fg="blue")
 
     HEADERS = {"Content-Type": "application/json", "X-API-KEY": api_key}
     REQUEST_URL = f"{BASE_URL}/servers"
@@ -84,6 +59,22 @@ def list_aux(api_key: str, targets: List[str], fields: List[str]) -> List[Dict[s
     return responses_json
 
 
+def get_all_server_ids(api_key: str) -> List[str]:
+    """
+    Get all the server ids
+
+    Args:
+        api_key: The API key to use
+
+    Raises:
+        requests.RequestException: If there was an error with any of the requests
+
+    Returns:
+        A list with all server ids
+    """
+    return [server["id"] for server in list_aux(api_key, ["all"])]
+
+
 def archive_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]]:
     """
     Archive all clouding servers or some of them by id (business logic)
@@ -98,7 +89,7 @@ def archive_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]]:
     Returns:
         A list with all the responses to the archiving requests
     """
-    click.secho("[ARCHIVE SERVERS] Archiving servers...", fg="blue")
+    click.secho("[ARCHIVE] Archiving servers...", fg="blue")
 
     HEADERS = {"Content-Type": "application/json", "X-API-KEY": api_key}
 
@@ -127,12 +118,12 @@ def archive_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]]:
 
         # Wait some time before making the next batch of requests if there are still servers to archive
         if targets:
-            click.secho("[ARCHIVE SERVERS] Some servers are still being archived...", fg="blue")
-            click.secho(f"[ARCHIVE SERVERS] Waiting {WAIT_TIME} seconds before checking again...", fg="blue")
+            click.secho("[ARCHIVE] Some servers are still being archived...", fg="blue")
+            click.secho(f"[ARCHIVE] Waiting {WAIT_TIME} seconds before checking again...", fg="blue")
             time.sleep(WAIT_TIME)
             waited_time += WAIT_TIME
 
-    click.secho("[ARCHIVE SERVERS] All servers have been archived!", fg="blue")
+    click.secho("[ARCHIVE] All servers have been archived!", fg="blue")
 
     # Change server status to completed in the responses and add completed at date
     completed_at_date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
@@ -154,7 +145,7 @@ def unarchive_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]]:
     Raises:
         requests.RequestException: If there was an error with any of the requests
     """
-    click.secho("[UNARCHIVE SERVERS] Unarchiving servers...", fg="blue")
+    click.secho("[UNARCHIVE] Unarchiving servers...", fg="blue")
 
     HEADERS = {"Content-Type": "application/json", "X-API-KEY": api_key}
 
@@ -183,12 +174,12 @@ def unarchive_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]]:
 
         # Wait some time before making the next batch of requests if there are still servers to unarchive
         if targets:
-            click.secho("[UNARCHIVE SERVERS] Some servers are still being unarchived...", fg="blue")
-            click.secho(f"[UNARCHIVE SERVERS] Waiting {WAIT_TIME} seconds before checking again...", fg="blue")
+            click.secho("[UNARCHIVE] Some servers are still being unarchived...", fg="blue")
+            click.secho(f"[UNARCHIVE] Waiting {WAIT_TIME} seconds before checking again...", fg="blue")
             time.sleep(WAIT_TIME)
             waited_time += WAIT_TIME
 
-    click.secho("[UNARCHIVE SERVERS] All servers have been unarchived!", fg="blue")
+    click.secho("[UNARCHIVE] All servers have been unarchived!", fg="blue")
 
     # Change server status to completed in the responses and add completed at date
     completed_at_date = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ")
