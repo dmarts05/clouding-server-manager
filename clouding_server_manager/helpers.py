@@ -39,7 +39,7 @@ def get_all_server_ids(api_key: str) -> List[str]:
     return server_ids
 
 
-def list_servers_aux(api_key: str, targets: List[str], fields: List[str]) -> List[Dict[str, Any]]:
+def list_aux(api_key: str, targets: List[str], fields: List[str]) -> List[Dict[str, Any]]:
     """
     List all clouding servers or some of them by id (business logic)
 
@@ -84,7 +84,7 @@ def list_servers_aux(api_key: str, targets: List[str], fields: List[str]) -> Lis
     return responses_json
 
 
-def archive_servers_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]]:
+def archive_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]]:
     """
     Archive all clouding servers or some of them by id (business logic)
 
@@ -143,7 +143,7 @@ def archive_servers_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]
     return responses_json
 
 
-def unarchive_servers_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]]:
+def unarchive_aux(api_key: str, targets: List[str]) -> List[Dict[str, Any]]:
     """
     Unarchive all clouding servers or some of them by id (business logic)
 

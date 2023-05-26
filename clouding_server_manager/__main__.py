@@ -2,7 +2,7 @@ import click
 import requests
 from dotenv import load_dotenv
 
-from .commands import archive_servers, list_servers, unarchive_servers
+from .commands import archive, list, unarchive
 
 
 @click.group()
@@ -11,9 +11,9 @@ def commands():
 
 
 # Add the commands to the group
-commands.add_command(archive_servers)
-commands.add_command(list_servers)
-commands.add_command(unarchive_servers)
+commands.add_command(archive)
+commands.add_command(list)
+commands.add_command(unarchive)
 
 if __name__ == "__main__":
     # Load API key from env variable

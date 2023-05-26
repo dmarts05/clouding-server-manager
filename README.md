@@ -24,27 +24,27 @@ Clouding Server Manager is a Python project that allows you to manage your Cloud
 These are just a few examples of how to use the script. For more information, check out the help message by running `python -m clouding_server_manager --help`.
 * List all servers:
     ```bash
-    python -m clouding_server_manager list-servers -t all
+    python -m clouding_server_manager list -t all
     ```
 * List all servers and filter their fields:
     ```bash
-    python -m clouding_server_manager list-servers -t all --f id -f name
+    python -m clouding_server_manager list -t all --f id -f name
     ```
 * Archive a server:
     ```bash
-    python -m clouding_server_manager archive-servers -t 123456
+    python -m clouding_server_manager archive -t 123456
     ```
 * Archive multiple servers:
     ```bash
-    python -m clouding_server_manager archive-servers -t 123456 -t 789012
+    python -m clouding_server_manager archive -t 123456 -t 789012
     ```
 * Unarchive a server:
     ```bash
-    python -m clouding_server_manager unarchive-servers -t 123456
+    python -m clouding_server_manager unarchive -t 123456
     ```
 * Unarchive multiple servers:
     ```bash
-    python -m clouding_server_manager unarchive-servers -t 123456 -t 789012
+    python -m clouding_server_manager unarchive -t 123456 -t 789012
     ```
 
 ## Installation with Poetry (recommended)

@@ -3,7 +3,7 @@ from typing import List
 
 import click
 
-from .helpers import archive_servers_aux, list_servers_aux, unarchive_servers_aux
+from .helpers import archive_aux, list_aux, unarchive_aux
 
 
 @click.command()
@@ -32,7 +32,7 @@ from .helpers import archive_servers_aux, list_servers_aux, unarchive_servers_au
     multiple=True,
     help="The fields to show. You can either filter by a single field (-f x) or multiple fields (-f x -f y -f z ...). If not specified, all fields will be shown.",  # noqa: E501
 )
-def list_servers(api_key: str, targets: List[str], fields: List[str]) -> None:
+def list(api_key: str, targets: List[str], fields: List[str]) -> None:
     """
     List all clouding servers or some of them by id
 
@@ -43,7 +43,7 @@ def list_servers(api_key: str, targets: List[str], fields: List[str]) -> None:
     Raises:
         requests.RequestException: If there was an error with any of the requests
     """
-    responses_json = list_servers_aux(api_key, targets, fields)
+    responses_json = list_aux(api_key, targets, fields)
 
     # Print the response result for each request (only if there were no errors)
     for r_json in responses_json:  # type: ignore
@@ -67,7 +67,7 @@ def list_servers(api_key: str, targets: List[str], fields: List[str]) -> None:
     multiple=True,
     help="The target server or servers to perform the action on. It can either be a single server id, multiple server ids (-t x -t y -t z ...) or all if you want to perform the action on all servers",  # noqa: E501
 )
-def archive_servers(api_key: str, targets: List[str]) -> None:
+def archive(api_key: str, targets: List[str]) -> None:
     """
     Archive all clouding servers or some of them by id
 
@@ -78,7 +78,7 @@ def archive_servers(api_key: str, targets: List[str]) -> None:
     Raises:
         requests.RequestException: If there was an error with any of the requests
     """
-    responses_json = archive_servers_aux(api_key, targets)
+    responses_json = archive_aux(api_key, targets)
 
     # Print the response result for each request (only if there were no errors)
     for r_json in responses_json:  # type: ignore
@@ -102,7 +102,7 @@ def archive_servers(api_key: str, targets: List[str]) -> None:
     multiple=True,
     help="The target server or servers to perform the action on. It can either be a single server id, multiple server ids (-t x -t y -t z ...) or all if you want to perform the action on all servers",  # noqa: E501
 )
-def unarchive_servers(api_key: str, targets: List[str]) -> None:
+def unarchive(api_key: str, targets: List[str]) -> None:
     """
     Unarchive all clouding servers or some of them by id
 
@@ -113,7 +113,7 @@ def unarchive_servers(api_key: str, targets: List[str]) -> None:
     Raises:
         requests.RequestException: If there was an error with any of the requests
     """
-    responses_json = unarchive_servers_aux(api_key, targets)
+    responses_json = unarchive_aux(api_key, targets)
 
     # Print the response result for each request (only if there were no errors)
     for r_json in responses_json:  # type: ignore
