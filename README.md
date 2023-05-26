@@ -120,7 +120,11 @@ If you want to contribute to the project or run the development environment, fol
     ```bash
     poetry run mypy clouding_server_manager
     ```
-5. Do everything at once:
+5. Generate the documentation:
+    ```bash
+    cd docs && poetry run make html
+    ```
+6. Do everything at once (except for generating the documentation):
     ```bash
     poetry run pre-commit run --all-files
     ```

@@ -1,3 +1,4 @@
+"""Main entry point for the CLI"""
 import click
 import requests
 from dotenv import load_dotenv

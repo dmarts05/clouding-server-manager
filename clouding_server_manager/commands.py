@@ -1,3 +1,4 @@
+"""Module that contains the CLI commands for the clouding server manager program"""
 import json
 from typing import List
 
