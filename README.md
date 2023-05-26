@@ -78,6 +78,10 @@ To set up the project, follow these steps:
     ```bash
     python -m clouding_server_manager --help
     ```
+    or
+    ```bash
+    poetry run clouding-sm --help
+    ```
     This will display the help message and show you how to use the script.
 
 ## Installation with pip
@@ -99,6 +103,10 @@ This is an alternative installation method that uses pip instead of Poetry. It m
 5. Run the script:
     ```bash
     python -m clouding_server_manager --help
+    ```
+    or
+    ```bash
+    poetry run clouding-sm --help
     ```
     This will display the help message and show you how to use the script.
 

@@ -16,7 +16,9 @@ commands.add_command(archive)
 commands.add_command(list)
 commands.add_command(unarchive)
 
-if __name__ == "__main__":
+
+def main():
+    """Entry point for the CLI"""
     # Load API key from env variable
     load_dotenv()
 
@@ -26,3 +28,7 @@ if __name__ == "__main__":
     except requests.RequestException as e:
         click.secho(e, fg="red")
         exit(1)
+
+
+if __name__ == "__main__":
+    main()
