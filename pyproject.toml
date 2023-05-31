@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "clouding-server-manager"
-version = "1.0.2"
+version = "1.0.3"
 description = "A Python project to easily manage Clouding servers from the command line."
 authors = ["dmarts05 <dmarts05@estudiantes.unileon.es>"]
 readme = "README.md"
@@ -10,7 +10,7 @@ packages = [{include = "clouding_server_manager"}]
 clouding-sm = "clouding_server_manager.__main__:main"
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = ">=3.9, <4.0"
 requests = "^2.31.0"
 python-dotenv = "^1.0.0"
 click = "^8.1.3"
