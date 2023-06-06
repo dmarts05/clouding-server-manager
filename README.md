@@ -1,5 +1,5 @@
 # Clouding Server Manager
-![Version](https://img.shields.io/badge/Version-1.0.3-brightgreen.svg)
+![Version](https://img.shields.io/badge/Version-1.0.4-brightgreen.svg)
 ![Python](https://img.shields.io/badge/Python-3.9-brightgreen.svg)
 ![License](https://img.shields.io/badge/License-MIT-blue.svg)
 
