@@ -134,23 +134,27 @@ If you want to contribute to the project or run the development environment, fol
     ```bash
     poetry install --with dev
     ```
-2. Format the code:
+2. Install pre-commit hooks:
+    ```bash
+    poetry run pre-commit install
+    ```
+3. Format the code:
     ```bash
     poetry run black clouding_server_manager
     ```
-3. Lint the code:
+4. Lint the code:
     ```bash
     poetry run flake8 clouding_server_manager
     ```
-4. Run static type checking:
+5. Run static type checking:
     ```bash
     poetry run mypy clouding_server_manager
     ```
-5. Generate the documentation:
+6. Generate the documentation:
     ```bash
     cd docs && poetry run make html
     ```
-6. Do everything at once (except for generating the documentation):
+7. Do everything at once (except for generating the documentation):
     ```bash
     poetry run pre-commit run --all-files
     ```

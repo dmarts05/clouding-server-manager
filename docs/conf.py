@@ -15,7 +15,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "clouding-server-manager"
 copyright = "2023, dmarts05"
 author = "dmarts05"
-release = "0.1.0"
+release = "1.0.5"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
